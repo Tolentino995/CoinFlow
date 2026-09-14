@@ -2,24 +2,27 @@ import { useEffect, useRef, useState} from 'react';
 import type { CoinInterface } from '../interface/Coin';
 import CoinsTable from './CoinsTable';
 import CoinsNotFoud from './CoinsNotFoud';
+import Spinner from "./Spinner";
 
 
 const CoinsCointainer = () => {
 
     const [coinList, setCoinlist] = useState<CoinInterface[]>([])
     const [coinListOriginal, setCoinListOriginal] = useState<CoinInterface[]>([])
+    const [error, setError] = useState<string | null>(null)
     const [loading, setLoading] = useState<boolean>(true)
     const searchInput = useRef<HTMLInputElement>(null)
 
      useEffect (() => {
-        fetch ("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false")
+        fetch ("://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=markehttpst_cap_desc&per_page=100&page=1&sparkline=false")
         .then(response => response.json())
         .then(data => {
             setCoinlist(data)
             setCoinListOriginal(data)
         })
         .catch(error => {
-            console.error("Error al obtener los datos",error) 
+            console.error("Error al obtener los datos",error),
+            setError("Error al obtener los datos")
         })
             /*Finaliza luego con cualquiera de las dos respuesta con setLoading false */
         .finally(() => {
@@ -34,17 +37,11 @@ const CoinsCointainer = () => {
     }
 
     if (loading) {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
-                {/* Spinner circular */}
-                <div className="w-12 h-12 rounded-full border-4 border-gray-100 border-t-cyan-500 animate-spin"></div>
-                
-                {/* Texto sutil con efecto de latido */}
-                <p className="text-sm font-medium text-gray-400 animate-pulse">
-                    Sincronizando mercado...
-                </p>
-            </div>
-        );
+        return <Spinner/>
+    }
+
+    if (error) {
+        return <div className="text-red-500 text-center py-12">{error}</div>
     }
 
     return (
