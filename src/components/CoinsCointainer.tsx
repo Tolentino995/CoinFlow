@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState} from 'react';
 import type { CoinInterface } from '../interface/Coin';
 import CoinsTable from './CoinsTable';
-import CoinsNotFoud from './CoinsNotFoud';
+import CoinsNotFound from './CoinsNotFound';
 import Spinner from "./Spinner";
+import { URL_API , URL_COINS } from '../constants/api';
 
 
 const CoinsCointainer = () => {
@@ -13,16 +14,22 @@ const CoinsCointainer = () => {
     const [loading, setLoading] = useState<boolean>(true)
     const searchInput = useRef<HTMLInputElement>(null)
 
+    /*  ELiminamos por que generamos una carpeta de consta
+    const URL_API = import.meta.env.VITE_API_URL
+*/
      useEffect (() => {
-        fetch ("://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=markehttpst_cap_desc&per_page=100&page=1&sparkline=false")
-        .then(response => response.json())
+        fetch (`${URL_API}/${URL_COINS}`)
+        .then(response => {
+            if (!response.ok) throw new Error("Error en la respuesta de la red");
+            return response.json();
+        })
         .then(data => {
             setCoinlist(data)
             setCoinListOriginal(data)
         })
         .catch(error => {
-            console.error("Error al obtener los datos",error),
-            setError("Error al obtener los datos")
+            console.error("Error al obtener los datos", error);
+            setError("Error al obtener los datos");
         })
             /*Finaliza luego con cualquiera de las dos respuesta con setLoading false */
         .finally(() => {
@@ -64,7 +71,7 @@ const CoinsCointainer = () => {
                     <div className="overflow-x-auto">
                         
                     
-                     {coinList.length > 0 ? <CoinsTable coins={coinList} /> : <CoinsNotFoud/>}
+                     {coinList.length > 0 ? <CoinsTable coins={coinList} /> : <CoinsNotFound/>}
                         
                      </div>
                 </div>
