@@ -1,20 +1,21 @@
-import Header from './components/Header';
-import CoinsCointainer from './components/CoinsCointainer';
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+import Layout from "./components/Layout"
+import NotFound from "./components/NotFound"
+import CoinsCointainer from "./components/CoinsCointainer"
 
 const App = () => {
 
+  /*BrowserRouter manejador de rutas */
+
   return (
-    <>
-      <Header />
-      <main className='container mx-auto py-8'>
-        <h1>Lista de Criptomoneda</h1>
-        <div className='coins-list'>
-          <CoinsCointainer />
-        </div>
-      </main>
-      
-      
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+        <Route index element={<CoinsCointainer />} />
+        <Route path="*" element={<NotFound />}/>
+        </Route>
+      </Routes>
+    </BrowserRouter>
 
   )
   
