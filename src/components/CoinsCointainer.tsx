@@ -3,7 +3,7 @@ import type { CoinInterface } from '../interface/Coin';
 import CoinsTable from './CoinsTable';
 import CoinsNotFound from './CoinsNotFound';
 import Spinner from "./Spinner";
-import { URL_API , URL_COINS } from '../constants/api';
+import { URL_API , URL_COINS, COINGECKO_API_KEY } from '../constants/api';
 
 
 const CoinsCointainer = () => {
@@ -18,7 +18,7 @@ const CoinsCointainer = () => {
     const URL_API = import.meta.env.VITE_API_URL
 */
      useEffect (() => {
-        fetch (`${URL_API}/${URL_COINS}`)
+        fetch (`${URL_API}${URL_COINS}&x_cg_demo_api_key=${COINGECKO_API_KEY}`)
         .then(response => {
             if (!response.ok) throw new Error("Error en la respuesta de la red");
             return response.json();
