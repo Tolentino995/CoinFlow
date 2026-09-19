@@ -18,7 +18,14 @@ const WhatchListCointainer = () => {
     const URL_API = import.meta.env.VITE_API_URL
 */
      useEffect (() => {
-        fetch (`${URL_API}${URL_COINS}&x_cg_demo_api_key=${COINGECKO_API_KEY}`)
+        const favorites = JSON.parse(localStorage.getItem("favorites") || "[]")
+
+        if (favorites.length === 0) {
+            setLoading(false);
+            return;
+        }
+
+        fetch (`${URL_API}${URL_COINS}&x_cg_demo_api_key=${COINGECKO_API_KEY}&ids=${favorites.join(",")}`)
         .then(response => {
             if (!response.ok) throw new Error("Error en la respuesta de la red");
             return response.json();

@@ -11,7 +11,9 @@ const Coin = ({id, name, symbol, current_price, price_change_percentage_24h, ima
     const isPositive = (price_change_percentage_24h ?? 0) >= 0;
 
     const handleFavortes = () => {
-        setIsFavorite(!isFavorite)
+      const favorites = JSON.parse(localStorage.getItem("favorites") || "[]")
+      setIsFavorite(!isFavorite)
+      localStorage.setItem("favorites", JSON.stringify([...favorites, id]))
     }
 
     return (
