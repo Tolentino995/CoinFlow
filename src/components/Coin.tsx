@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { CoinInterface } from '../interface/Coin';
+import { Link } from 'react-router-dom';
 
 // Component for the coin list
 // Props: order, name, symbol, price, priceChange, code
@@ -27,8 +28,10 @@ const Coin = ({id, name, symbol, current_price, price_change_percentage_24h, ima
       
       {/* Símbolo */}
       <td className="py-4 px-4">
-        <img src={image} alt={symbol} className='w-10 h-10 rounded-full' />
-        <span className="text-sm font-medium text-gray-500 uppercase">{symbol}</span>
+        <Link to={`/coin/${id}`}>
+          <img src={image} alt={symbol} className='w-10 h-10 rounded-full' />
+          <span className="text-sm font-medium text-gray-500 uppercase">{symbol}</span>
+        </Link>
       </td>
       
       {/* Precio */}

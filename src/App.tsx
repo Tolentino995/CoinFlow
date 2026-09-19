@@ -3,6 +3,9 @@ import Layout from "./components/Layout"
 import NotFound from "./components/NotFound"
 import CoinsCointainer from "./components/CoinsCointainer"
 import WhatchListCointainer from "./components/WhatchListCointainer"
+import CoinCointainer from "./components/CoinCointainer"
+
+
 
 const App = () => {
 
@@ -13,7 +16,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
         <Route path="watchlist" element={<WhatchListCointainer />} />
-        <Route path="coin/:id" element={<WhatchListCointainer />} />
+        <Route path="coin/:id" element={<CoinCointainer />} />
         <Route index element={<CoinsCointainer />} />
         <Route path="*" element={<NotFound />}/>
         </Route>
