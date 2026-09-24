@@ -6,7 +6,10 @@ import { Link } from 'react-router-dom';
 // Props: order, name, symbol, price, priceChange, code
 const Coin = ({id, name, symbol, current_price, price_change_percentage_24h, image}: CoinInterface) => {
 
-    const [isFavorite, setIsFavorite]= useState<boolean>(false)
+    const [isFavorite, setIsFavorite]= useState<boolean>(()=> {
+      const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+      return favorites.includes(id);
+});
 
     const isPositive = (price_change_percentage_24h ?? 0) >= 0;
 
