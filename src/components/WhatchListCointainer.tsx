@@ -50,6 +50,12 @@ const WhatchListCointainer = () => {
         setCoinlist(newCoinsList);
     }
 
+    const handleClearFavorites = () => {
+        localStorage.removeItem("favorites");
+        setCoinlist([]);
+        setCoinListOriginal([]);
+    }
+
     if (loading) {
         return <Spinner/>
     }
@@ -63,7 +69,7 @@ const WhatchListCointainer = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
                 
                 {/* Barra de Búsqueda Minimalista */}
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center flex-wrap gap-4">
                     <input 
                         type="text" 
                         placeholder="Buscar criptomoneda..." 
@@ -72,6 +78,15 @@ const WhatchListCointainer = () => {
                         className="w-full max-w-sm px-5 py-2.5 text-sm text-gray-700 bg-gray-50 border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all duration-200"
                     />
                 </div>
+                
+                {coinListOriginal.length > 0 && (
+                        <button 
+                            onClick={handleClearFavorites}
+                            className="px-5 py-2.5 text-sm font-medium text-rose-600 bg-rose-50 border border-rose-200 rounded-full hover:bg-rose-100 hover:text-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500/20 transition-all duration-200"
+                        >
+                            Vaciar favoritos
+                        </button>
+                    )}
 
                 {/* Contenedor de la Tabla */}
                 <div className="bg-white rounded-2xl border border-gray-200     shadow-sm overflow-hidden">
