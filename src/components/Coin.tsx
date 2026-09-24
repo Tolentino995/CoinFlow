@@ -15,6 +15,18 @@ const Coin = ({id, name, symbol, current_price, price_change_percentage_24h, ima
 
     const handleFavortes = () => {
       const favorites = JSON.parse(localStorage.getItem("favorites") || "[]")
+      
+      let newFavorites;
+
+      if (favorites.includes(id)) {
+        newFavorites = favorites.filter((favId: string) => favId !== id);
+        setIsFavorite(false);
+    } else {
+        // Si no está, la agregamos al final del arreglo
+        newFavorites = [...favorites, id];
+        setIsFavorite(true);
+    }
+
       setIsFavorite(!isFavorite)
       localStorage.setItem("favorites", JSON.stringify([...favorites, id]))
     }
