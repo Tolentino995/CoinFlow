@@ -1,8 +1,12 @@
 import type { CoinInterface } from '../interface/Coin';
 import Coin from './Coin';
 
+interface CoinsTableProps {
+    coins: CoinInterface[];
+    onRemoveCoin?: (id: string) => void;
+  }
 
-const CoinsTable = ({coins} : {coins : CoinInterface[]}) => {
+const CoinsTable = ({coins , onRemoveCoin} : CoinsTableProps) => {
     return (
         <table className="w-full text-left border-collapse min-w-[800px]">
                             <thead>
@@ -26,6 +30,7 @@ const CoinsTable = ({coins} : {coins : CoinInterface[]}) => {
                                         current_price={coin.current_price} 
                                         price_change_percentage_24h={coin.price_change_percentage_24h} 
                                         image={coin.image}
+                                        onRemoveCoin={onRemoveCoin}
                                     />
                                 ))}
                             </tbody>

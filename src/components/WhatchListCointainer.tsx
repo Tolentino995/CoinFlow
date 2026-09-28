@@ -44,6 +44,8 @@ const WhatchListCointainer = () => {
         })
     }, [])
 
+    
+
     const handleSearch = () => {
         const searchValue = searchInput.current?.value || ''
         const newCoinsList = coinListOriginal.filter(coin => coin.name.toLowerCase().includes(searchValue.toLowerCase()))
@@ -54,6 +56,11 @@ const WhatchListCointainer = () => {
         localStorage.removeItem("favorites");
         setCoinlist([]);
         setCoinListOriginal([]);
+    }
+
+    const handleRemoveCoin = (idToRemove: string) => {
+        setCoinlist(prevList => prevList.filter(coin => coin.id !== idToRemove));
+        setCoinListOriginal(prevList => prevList.filter(coin => coin.id !== idToRemove));
     }
 
     if (loading) {
@@ -93,7 +100,7 @@ const WhatchListCointainer = () => {
                     <div className="overflow-x-auto">
                         
                     
-                     {coinList.length > 0 ? <CoinsTable coins={coinList} /> : <CoinsNotFound/>}
+                        {coinList.length > 0 ? <CoinsTable coins={coinList} onRemoveCoin={handleRemoveCoin} /> : <CoinsNotFound/>}
                         
                      </div>
                 </div>

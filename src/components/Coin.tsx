@@ -2,34 +2,38 @@ import { useState } from 'react';
 import type { CoinInterface } from '../interface/Coin';
 import { Link } from 'react-router-dom';
 
+interface CoinProps extends CoinInterface {
+  onRemoveCoin?: (id: string) => void;
+}
+
 // Component for the coin list
 // Props: order, name, symbol, price, priceChange, code
-const Coin = ({id, name, symbol, current_price, price_change_percentage_24h, image}: CoinInterface) => {
-
+const Coin = ({id, name, symbol, current_price, price_change_percentage_24h, image, onRemoveCoin} : CoinProps) => {
     const [isFavorite, setIsFavorite]= useState<boolean>(()=> {
-      const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-      return favorites.includes(id);
-});
+    const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+    return favorites.includes(id);
+    });
 
     const isPositive = (price_change_percentage_24h ?? 0) >= 0;
 
     const handleFavortes = () => {
-      const favorites = JSON.parse(localStorage.getItem("favorites") || "[]")
-      
-      let newFavorites;
+      const favorites: string[] = JSON.parse(localStorage.getItem("favorites") || "[]");
+      let newFavorites: string[];
 
-      if (favorites.includes(id)) {
-        newFavorites = favorites.filter((favId: string) => favId !== id);
+      if (isFavorite) {
+        newFavorites = favorites.filter((favId) => favId !== id);
         setIsFavorite(false);
-    } else {
-        // Si no está, la agregamos al final del arreglo
-        newFavorites = [...favorites, id];
-        setIsFavorite(true);
-    }
-
-      setIsFavorite(!isFavorite)
-      localStorage.setItem("favorites", JSON.stringify([...favorites, id]))
-    }
+        if (onRemoveCoin) {
+          onRemoveCoin(id);
+        }
+      } else {
+          // Si no está, la agregamos al final del arreglo
+          newFavorites = Array.from(new Set([...favorites, id]));
+          setIsFavorite(true);
+      }
+    
+        localStorage.setItem("favorites", JSON.stringify(newFavorites));
+      }
 
     return (
     <tr className="border-b border-gray-100 hover:bg-gray-50/80 transition-colors duration-200">
